@@ -1,0 +1,17 @@
+{
+  "properties": [{
+    "name": "my.height",
+    "type": "java.lang.Integer",
+
+  }],
+  "hints": [{
+    "name" : "my.height",
+    "values": [{
+      "value": 160,
+      "description": "a"
+    },{
+      "value": 170,
+      "description": "b"
+    }]
+  }]
+}
