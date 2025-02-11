@@ -2,6 +2,7 @@ package study.fscamp.springboot;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -9,11 +10,22 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.event.EventListener;
 import study.fscamp.springboot.service.StudentService;
 
-@RequiredArgsConstructor
 @SpringBootApplication
 public class FscampSpringbootApplication {
 
 	private final StudentService studentService;
+	private final String username;
+	private final String password;
+
+	public FscampSpringbootApplication(
+			@Value("${spring.datasource.username}") String username,
+			@Value("${spring.datasource.password}") String password,
+			StudentService studentService
+	) {
+		this.username = username;
+		this.password = password;
+		this.studentService = studentService;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(FscampSpringbootApplication.class, args);
@@ -21,6 +33,7 @@ public class FscampSpringbootApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void init() {
+		System.out.println(username + ":" + password);
 		studentService.printStudent("jack");
 		studentService.printStudent("jack");
 		studentService.printStudent("jack");
