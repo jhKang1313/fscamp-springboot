@@ -3,10 +3,12 @@ package study.fscamp.springboot;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import study.fscamp.springboot.service.StudentService;
 
@@ -18,8 +20,8 @@ public class FscampSpringbootApplication {
 	private final String password;
 
 	public FscampSpringbootApplication(
-			@Value("${spring.datasource.username}") String username,
-			@Value("${spring.datasource.password}") String password,
+			@Value("${spring.datasource.username:vault off}") String username,
+			@Value("${spring.datasource.password:vault off}") String password,
 			StudentService studentService
 	) {
 		this.username = username;
@@ -31,12 +33,18 @@ public class FscampSpringbootApplication {
 		SpringApplication.run(FscampSpringbootApplication.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void init() {
-		System.out.println(username + ":" + password);
-		studentService.printStudent("jack");
-		studentService.printStudent("jack");
-		studentService.printStudent("jack");
-		studentService.printStudent("jack");
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void init() {
+//		System.out.println("vault => " + username + ":" + password);
+//		studentService.printStudent("jack");
+//		studentService.printStudent("jack");
+//		studentService.printStudent("jack");
+//		studentService.printStudent("jack");
+//	}
+	@Bean
+	public ApplicationRunner applicationRunner(StudentService studentService) {
+		return args -> {
+			System.out.println("vault => " + username + ":" + password);
+		};
 	}
 }

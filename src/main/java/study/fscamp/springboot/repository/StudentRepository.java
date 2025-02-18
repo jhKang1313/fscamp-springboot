@@ -4,13 +4,15 @@ package study.fscamp.springboot.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import study.fscamp.springboot.domain.Student;
 
 import java.util.Map;
 
+
 @RequiredArgsConstructor
-@Repository
+@Component
 public class StudentRepository {
   private final Map<String, Student> storage;
   @Cacheable("student")
